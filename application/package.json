@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "app:dev": "next dev --port 5001"
+    "app:dev": "next dev --port 5001",
+    "app:publish": "next build && next start --port 5001"
   },
   "dependencies": {
     "next": "14.2.3",

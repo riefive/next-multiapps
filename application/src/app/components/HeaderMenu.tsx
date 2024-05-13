@@ -20,7 +20,7 @@ export default function HeaderMenu() {
         }
         if (status === 'loading') return;
         setUserToClient();
-    }, [session, status, setUserRole]);
+    }, [router, session, status, setUserRole]);
     
     return (
         <div className="navbar bg-base-100">
