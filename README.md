@@ -6,6 +6,9 @@ $ npx create-next-app@latest app1
 $ npx create-next-app@latest app2
 $ npx create-next-app@latest app3
 
+## Dummy Api
+- https://api.escuelajs.co/api
+
 ## Upload
 $ git remote add origin https://github.com/riefive/next-multiapps.git
 $ git branch -M main
