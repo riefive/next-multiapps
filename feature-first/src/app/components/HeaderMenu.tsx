@@ -22,7 +22,7 @@ export default function HeaderMenu() {
         if (status === 'authenticated') {
             setUserToClient();
         }
-    }, [session, status, setUserRole]);
+    }, [router, session, status, setUserRole]);
     
     return (
         <div className="navbar bg-base-100">
@@ -50,7 +50,7 @@ export default function HeaderMenu() {
                         <li><Link href={'/app/main'}>Main Application</Link></li>
                         <li><Link href={'/feat-second/main'}>Feature Second</Link></li>
                         {userRole === 'admin' && (
-                        <li><Link href={'/administrator'}>Administrator</Link></li>
+                        <li><Link href={'/app/administrator'}>Administrator</Link></li>
                         )}
                     </ul>
                     </details>
