@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 export default function Main() {
@@ -17,6 +18,7 @@ export default function Main() {
                     <div className="max-w-md mb-2">
                         <h1 className="text-5xl font-bold">This is Main Page</h1>
                         <p className="pt-6">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
+                        <Link href={'/'} className="btn btn-primary mt-4">Back to Home</Link>
                     </div>
                 </div>
                 <div className="divider"></div>

@@ -19,7 +19,9 @@ export default function HeaderMenu() {
             setUserRole(userRaw?.role || 'none')
         }
         if (status === 'loading') return;
-        setUserToClient();
+        if (status === 'authenticated') {
+            setUserToClient();
+        }
     }, [router, session, status, setUserRole]);
     
     return (
@@ -28,43 +30,30 @@ export default function HeaderMenu() {
                 <Link href={'/'} className="btn btn-ghost text-xl">Super App</Link>
             </div>
             <div className="flex-none">
-                <ul className="menu menu-sm menu-horizontal px-1">
-                    <li>
-                        <details>
-                        <summary>
-                            Internal
-                        </summary>
-                        <ul className="p-2">
-                            <li><Link href={'/main'}>Main</Link></li>
-                            {userRole === 'admin' && (
-                            <li><Link href={'/administrator'}>Administrator</Link></li>
-                            )}
-                        </ul>
-                        </details>
-                    </li>
-                    <li>
-                        <details>
-                        <summary>
-                            External
-                        </summary>
-                        <ul className="p-2">
-                            <li><Link href={'/feat-first/main'}>Feature First</Link></li>
-                            <li><Link href={'/feat-second/main'}>Feature Second</Link></li>
-                        </ul>
-                        </details>
-                    </li>
-                    {!session && (
-                    <li><Link href={'/signin'}>SignIn</Link></li>
-                    )}
-                </ul>
+                <div className="dropdown dropdown-end">
+                    <div tabIndex={0} role="button" className="btn btn-ghost">
+                        <span className="font-normal m-1">Menu</span>
+                    </div>
+                    <ul tabIndex={0} className="dropdown-content menu menu-sm shadow bg-base-100 rounded-box w-52 mt-3 p-2 z-[1]">
+                        <li><Link href={'/main'}>Application Main</Link></li>
+                        <li><Link href={'/feat-first'}>Feature First Main</Link></li>
+                        <li><Link href={'/feat-second'}>Feature Second Main</Link></li>
+                        {userRole === 'admin' && (
+                        <li><Link href={'/administrator'}>Administrator</Link></li>
+                        )}
+                        {!session && (
+                        <li><Link href={'/signin'}>SignIn</Link></li> 
+                        )}
+                    </ul>
+                </div>
                 {(session && session.user) && (
                 <div className="dropdown dropdown-end">
-                    <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                    <div tabIndex={1} role="button" className="btn btn-ghost btn-circle avatar">
                         <div className="w-8 rounded-full">
                             <img alt="Tailwind CSS Navbar component" src={session?.user?.avatar} />
                         </div>
                     </div>
-                    <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                    <ul tabIndex={1} className="dropdown-content menu menu-sm shadow bg-base-100 rounded-box w-52 mt-3 p-2 z-[2]">
                         <li>
                             <span className="text-[12px] text-base-400">[ {session.user.name} ]</span>
                         </li>
@@ -79,8 +68,7 @@ export default function HeaderMenu() {
                             </button>
                         </li>
                     </ul>
-                </div>
-                )}
+                </div>)}
             </div>
         </div>
     )

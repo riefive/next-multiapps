@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-export default function NotFound() {
+export default function NotFoundCustom() {
     return (
         <div>
             <div className="navbar bg-base-100">
