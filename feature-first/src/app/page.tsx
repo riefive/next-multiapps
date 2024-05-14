@@ -1,22 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-
 import HeaderMenu from '@/app/components/HeaderMenu';
-
-export function HomeRedirect() {
-  const router = useRouter();
-
-  useEffect(() => {
-    router.push('/app2')
-  }, []);
-
-  return (
-    <>
-    </>
-  );
-}
 
 export default function Home() {
   return (
