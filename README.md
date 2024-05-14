@@ -11,6 +11,49 @@ $ npx create-next-app@latest app3
 ## Dummy Api
 - https://api.escuelajs.co/api
 
+## Setting Nginx
+```
+server {
+        listen 5000;
+        access_log off;
+    
+        location / {
+            add_header Cache-Control "no-cache, no-store";
+            proxy_set_header Host $host;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-port 5000;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+            proxy_pass http://localhost:5001;
+            proxy_http_version 1.1;
+        }
+
+        location /feat-first {
+            rewrite ^/feat-first/(.*) /$1 break;
+            add_header Cache-Control "no-cache, no-store";
+            proxy_set_header Host $host;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-port 5000;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+            proxy_pass http://localhost:5002;
+            proxy_http_version 1.1;
+        }
+
+        location /feat-second {
+            rewrite ^/feat-second/(.*) /$1 break;
+            add_header Cache-Control "no-cache, no-store";
+            proxy_set_header Host $host;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-port 5000;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+            proxy_pass http://localhost:5003;
+            proxy_http_version 1.1;
+        }
+}
+```
+
 ## Upload
 ```
 $ git remote add origin https://github.com/riefive/next-multiapps.git

@@ -82,7 +82,8 @@ export function getStatusProxy(request: NextRequest) {
     const withProxy = Number(urlProxyLocal.port) === Number(request.headers.get('x-forwarded-port')) && request.headers.get('connection') === 'upgrade';
     const outputs: any = { 
         withProxy, 
-        portProxy: Number(request.headers.get('x-forwarded-port')) 
+        portProxy: Number(request.headers.get('x-forwarded-port')) ,
+        menu: ''
     };
     if (request.headers.get('connection') === 'keep-alive') {
         const urlMainLocal = new URL(urlMain || '');
@@ -90,11 +91,11 @@ export function getStatusProxy(request: NextRequest) {
         const urlFeatSecondLocal = new URL(urlFeatSecond || '');
         outputs.portLocal = Number(request.nextUrl.port);
         if (Number(urlMainLocal.port) === Number(request.nextUrl.port)) {
-            outputs.location = 'application';
+            outputs.menu = 'application';
         } else if (Number(urlFeatFirstLocal.port) === Number(request.nextUrl.port)) {
-            outputs.location = 'feat-first';
+            outputs.menu = 'feat-first';
         } else if (Number(urlFeatSecondLocal.port) === Number(request.nextUrl.port)) {
-            outputs.location = 'feat-second';
+            outputs.menu = 'feat-second';
         }
     }
     return outputs;

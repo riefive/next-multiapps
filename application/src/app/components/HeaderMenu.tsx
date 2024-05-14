@@ -36,8 +36,8 @@ export default function HeaderMenu() {
                     </div>
                     <ul tabIndex={0} className="dropdown-content menu menu-sm shadow bg-base-100 rounded-box w-52 mt-3 p-2 z-[1]">
                         <li><Link href={'/main'}>Application Main</Link></li>
-                        <li><Link href={'/feat-first'}>Feature First Main</Link></li>
-                        <li><Link href={'/feat-second'}>Feature Second Main</Link></li>
+                        <li><Link href={'/feat-first/main'}>Feature First Main</Link></li>
+                        <li><Link href={'/feat-second/main'}>Feature Second Main</Link></li>
                         {userRole === 'admin' && (
                         <li><Link href={'/administrator'}>Administrator</Link></li>
                         )}

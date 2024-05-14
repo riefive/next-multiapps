@@ -8,7 +8,8 @@ const nextConfig = {
     reactStrictMode: false,
     assetPrefix: useProxy ? '/feat-first' : '',
     env: {
-        API_FAKER: process.env.API_FAKER || process.env.APP_FEAT_FIRST_URL
+        API_FAKER: process.env.API_FAKER || process.env.APP_FEAT_FIRST_URL,
+        USE_PROXY: process.env.APP_USE_PROXY
     },
     typescript: {
         ignoreBuildErrors: true,
@@ -19,11 +20,7 @@ if (useProxy) {
     nextConfig.rewrites = async () => {
         return [
             {
-                source: '/app',
-                destination: `${urlProxy}`
-            },
-            {
-                source: '/app/:match*',
+                source: '/:match*',
                 destination: `${urlProxy}/:match*`
             },
             {
@@ -36,7 +33,7 @@ if (useProxy) {
     nextConfig.redirects = async () => {
         return [
             {
-                source: '/app',
+                source: '/app/home',
                 destination: `${urlMain}`,
                 permanent: false
             },

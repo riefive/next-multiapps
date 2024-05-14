@@ -7,6 +7,7 @@ import { useSession } from 'next-auth/react';
 
 export default function HeaderMenu() {
     const router = useRouter();
+    const useProxy = process.env.USE_PROXY === 'true';
     const { data: session, status } = useSession();
     const [ userRole, setUserRole ] = useState<string>('');
 
@@ -14,7 +15,7 @@ export default function HeaderMenu() {
         function setUserToClient() {
             const userRaw: any = session && session.user ? session.user : {}
             if (userRaw?.error === 'RefreshAccessTokenError') {
-                return router.push(`/app/signIn`);
+                return router.push(useProxy ? `/signin` : '/app/signin');
             }
             setUserRole(userRaw?.role || 'none')
         }
@@ -22,12 +23,12 @@ export default function HeaderMenu() {
         if (status === 'authenticated') {
             setUserToClient();
         }
-    }, [router, session, status, setUserRole]);
+    }, [router, session, status, useProxy, setUserRole]);
     
     return (
         <div className="navbar bg-base-100">
             <div className="flex-1">
-                <Link href={'/app'} className="btn btn-ghost text-xl">Super App</Link>
+                <Link href={useProxy ? '/' : '/app/home'} className="btn btn-ghost text-xl">Super App</Link>
             </div>
             <div className="flex-none">
                 <div className="dropdown dropdown-end">
@@ -35,14 +36,14 @@ export default function HeaderMenu() {
                         <span className="font-normal m-1">Menu</span>
                     </div>
                     <ul tabIndex={0} className="dropdown-content menu menu-sm shadow bg-base-100 rounded-box w-52 mt-3 p-2 z-[1]">
-                        <li><Link href={'/app/main'}>Application Main</Link></li>
-                        <li><Link href={'/'}>Feature First Main</Link></li>
-                        <li><Link href={'/feat-second'}>Feature Second Main</Link></li>
+                        <li><Link href={useProxy ? '/main' : '/app/main'}>Application Main</Link></li>
+                        <li><Link href={useProxy ? '/feat-first/main' : '/main'}>Feature First Main</Link></li>
+                        <li><Link href={'/feat-second/main'}>Feature Second Main</Link></li>
                         {userRole === 'admin' && (
-                        <li><Link href={'/app/administrator'}>Administrator</Link></li>
+                        <li><Link href={useProxy ? '/administrator' : '/app/administrator'}>Administrator</Link></li>
                         )}
                         {!session && (
-                        <li><Link href={'/app/signin'}>SignIn</Link></li> 
+                        <li><Link href={useProxy ? '/signin' : '/app/signin'}>SignIn</Link></li> 
                         )}
                     </ul>
                 </div>
@@ -58,7 +59,7 @@ export default function HeaderMenu() {
                             <span className="text-[12px] text-base-400">[ {session.user.name} ]</span>
                         </li>
                         <li>
-                            <Link href={'/app/signout'} className="text-sky-600">Sign Out</Link>
+                            <Link href={useProxy ? '/signout' : '/app/signout'} className="text-sky-600">Sign Out</Link>
                         </li>
                     </ul>
                 </div>)}
