@@ -206,7 +206,7 @@ export default function Main() {
                                         <div className="avatar">
                                             <div className="mask mask-circle w-10 h-110">
                                                 <img 
-                                                    src={product.images ? product.images[0] : '-'} 
+                                                    src={product.images ? product.images[0] : ''} 
                                                     alt={product.title} 
                                                     onError={({ currentTarget }) => {
                                                         currentTarget.onerror = null;

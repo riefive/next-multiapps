@@ -16,7 +16,7 @@ export async function middleware(request: NextRequest) {
     if (!decoded) return NextResponse.redirect(new URL(`${urlTarget}/signin`, request.url));
     if (!!decoded && (session?.timeExpired || 0) > 0) {
         const pathnameLocal = pathname || '';
-        const urlCallback = pathnameLocal.replace('/','').replaceAll('/', '_');
+        const urlCallback = pathnameLocal.replace('/','feat-first').replaceAll('/', '_');
         return NextResponse.redirect(new URL(`${urlTarget}/refresh?callbackUrl=${urlCallback}`, request.url));
     }
     return NextResponse.next();
