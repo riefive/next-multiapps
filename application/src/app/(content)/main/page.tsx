@@ -19,16 +19,6 @@ export default function Main() {
     const colCategories = ['', 'Name', 'Image', 'Created At', 'Updated At'];
     const colProducts = ['', 'Title', 'Price', 'Description', 'Image', 'Category', 'Created At', 'Updated At'];
 
-    useEffect(() => {
-        if (status === 'loading') return;
-        if (status === 'authenticated') setToken(session.user.accessToken as string);
-        if ((status === 'unauthenticated' && token === '') || !!token) {
-            getFetchCategory();
-            getFetchProduct();
-            getFetchUser();
-        }
-    }, [session, status, token]);
-
     const getFetchCategory = async () => {
         const options: any = { cache: 'no-store' };
         if (status === 'authenticated' && !!token) {
@@ -61,6 +51,16 @@ export default function Main() {
             setUsers(reqUsers);
         }
     };
+
+    useEffect(() => {
+        if (status === 'loading') return;
+        if (status === 'authenticated') setToken(session.user.accessToken as string);
+        if ((status === 'unauthenticated' && token === '') || !!token) {
+            getFetchCategory();
+            getFetchProduct();
+            getFetchUser();
+        }
+    }, [session, status, token, getFetchCategory, getFetchProduct, getFetchUser]);
 
     return (
         <div>

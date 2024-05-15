@@ -14,19 +14,6 @@ export default function Main() {
     const [categories, setCategories] = useState([] as FakerCategory[]);
     const [products, setProducts] = useState([] as FakerProduct[]);
     const [token, setToken] = useState('');
-    const colUsers = ['', 'Name', 'Email', 'Password', 'Created At', 'Updated At'];
-    const colCategories = ['', 'Name', 'Created At', 'Updated At'];
-    const colProducts = ['', 'Title', 'Price', 'Description', 'Created At', 'Updated At'];
-
-    useEffect(() => {
-        if (status === 'loading') return;
-        if (status === 'authenticated') setToken(session.user.accessToken as string);
-        if ((status === 'unauthenticated' && token === '') || !!token) {
-            getFetchCategory();
-            getFetchProduct();
-            getFetchUser();
-        }
-    }, [session, status, token]);
 
     const getFetchCategory = async () => {
         const options: any = { cache: 'no-store' };
@@ -61,6 +48,16 @@ export default function Main() {
         }
     };
 
+    useEffect(() => {
+        if (status === 'loading') return;
+        if (status === 'authenticated') setToken(session.user.accessToken as string);
+        if ((status === 'unauthenticated' && token === '') || !!token) {
+            getFetchCategory();
+            getFetchProduct();
+            getFetchUser();
+        }
+    }, [session, status, token, getFetchCategory, getFetchProduct, getFetchUser]);
+
     return (
         <div>
             <NavbarMain />
@@ -80,13 +77,12 @@ export default function Main() {
                 {users.length > 0 && (
                     <div className="w-full p-4">
                     <div className="flex flex-row flex-wrap justify-center items-center gap-3">
-                    {users.map((user) => (
+                    {users.map((user, idx) => (
                         <div className="card card-compact w-96 h-96 bg-base-100 shadow-xl mb-2" key={user.id}>
                             <figure className="w-full">
                                 <img 
-                                    key={user.id + '_' + user.name} 
                                     src={user.avatar} 
-                                    alt={user.id + '_' + user.name}
+                                    alt={`${user.id}_${user.name}_${idx+1}`} 
                                     className="w-full"
                                     onError={({ currentTarget }) => {
                                         currentTarget.onerror = null;
@@ -119,13 +115,12 @@ export default function Main() {
                 {categories.length > 0 && (
                     <div className="w-full p-4">
                     <div className="flex flex-row flex-wrap justify-center items-center gap-3">
-                    {categories.map((category) => (
+                    {categories.map((category, idx) => (
                         <div className="card card-compact w-96 h-96 bg-base-100 shadow-xl mb-2" key={category.id}>
                             <figure className="w-full">
                                 <img 
-                                    key={category.id + '_' + category.name} 
                                     src={category.image} 
-                                    alt={category.id + '_' + category.name}
+                                    alt={`${category.id}_${category.name}_${idx+1}`}
                                     className="w-full"
                                     onError={({ currentTarget }) => {
                                         currentTarget.onerror = null;
@@ -156,13 +151,12 @@ export default function Main() {
                 {products.length > 0 && (
                     <div className="w-full p-4">
                     <div className="flex flex-row flex-wrap justify-center items-center gap-3">
-                    {products.map((product) => (
+                    {products.map((product, idx) => (
                         <div className="card card-compact w-96 h-96 bg-base-100 shadow-xl mb-2" key={product.id}>
                             <figure className="w-full">
                                 <img 
-                                    key={product.id + '_' + product.title} 
                                     src={product.images ? product.images[0] : ''}
-                                    alt={product.id + '_' + product.title}  
+                                    alt={`${product.id}_${product.title}_${idx+1}`} 
                                     className="w-full"
                                     onError={({ currentTarget }) => {
                                         currentTarget.onerror = null;
@@ -179,9 +173,8 @@ export default function Main() {
                                         <div className="flex flex-row gap-1">
                                             {product.images.map((image, idx) => {
                                                 return (
-                                                    <figure className="rounded-[4px] w-8 h-8">
+                                                    <figure className="rounded-[4px] w-8 h-8" key={image + '_' + (idx + 1)}>
                                                         <img 
-                                                            key={image + '_' + (idx + 1)} 
                                                             src={image}
                                                             alt={image + '_' + (idx + 1)} 
                                                             className="w-full"
