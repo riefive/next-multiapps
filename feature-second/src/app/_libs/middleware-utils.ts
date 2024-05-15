@@ -58,7 +58,7 @@ export async function afterEnterRoute(pathname: string, withProxy: boolean, with
         const isApp = pathname.includes('/app/');
         const isFirst = pathname.includes('/feat-first/');
         const isSecond = pathname.includes('/feat-second/');
-        let menu = '';
+        let menu = 'none';
         let subPath = pathname;
         if (withProxy) { 
             menu = 'proxy'; 

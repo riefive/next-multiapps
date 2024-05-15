@@ -83,7 +83,7 @@ export function getStatusProxy(request: NextRequest) {
     const outputs: any = { 
         withProxy, 
         portProxy: Number(request.headers.get('x-forwarded-port')),
-        menu: ''
+        menu: 'none'
     };
     if (request.headers.get('connection') === 'keep-alive') {
         const urlMainLocal = new URL(urlMain || '');
