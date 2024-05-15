@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import { getCategories } from '@/app/api/faker/category';
@@ -17,9 +17,9 @@ export default function Main() {
     const [token, setToken] = useState('');
     const colUsers = ['', 'Name', 'Email', 'Password', 'Avatar', 'Created At', 'Updated At'];
     const colCategories = ['', 'Name', 'Image', 'Created At', 'Updated At'];
-    const colProducts = ['', 'Title', 'Price', 'Description', 'Image', 'Category', 'Created At', 'Updated At'];
+    const colProducts = ['', 'Title', 'Price', 'Description & Image', 'Category', 'Created At', 'Updated At'];
 
-    const getFetchCategory = async () => {
+    const getFetchCategory = useCallback(async () => {
         const options: any = { cache: 'no-store' };
         if (status === 'authenticated' && !!token) {
             options.headers = { 'Authorization': `Bearer ${token}` }
@@ -28,9 +28,9 @@ export default function Main() {
         if (!reqCategories?.error) {
             setCategories(reqCategories);
         }
-    };
+    }, [apiUrl, status, token, setCategories]);
 
-    const getFetchProduct = async () => {
+    const getFetchProduct = useCallback(async () => {
         const options: any = { cache: 'no-store' };
         if (status === 'authenticated' && !!token) {
             options.headers = { 'Authorization': `Bearer ${token}` }
@@ -39,9 +39,9 @@ export default function Main() {
         if (!reqProducts?.error) {
             setProducts(reqProducts);
         }
-    };
+    }, [apiUrl, status, token, setProducts])
 
-    const getFetchUser = async () => {
+    const getFetchUser = useCallback(async () => {
         const options: any = { cache: 'no-store' };
         if (status === 'authenticated' && !!token) {
             options.headers = { 'Authorization': `Bearer ${token}` }
@@ -50,7 +50,7 @@ export default function Main() {
         if (!reqUsers?.error) {
             setUsers(reqUsers);
         }
-    };
+    }, [apiUrl, status, token, setUsers]);
 
     useEffect(() => {
         if (status === 'loading') return;
@@ -176,8 +176,12 @@ export default function Main() {
                                     <td className="font-semibold">{idx + 1}.</td>
                                     <td className="font-normal">{product.title}</td>
                                     <td className="font-normal">${product.price}</td>
-                                    <td className="font-normal">{product.description}</td>
-                                    <td className="font-normal">{product.images ? product.images[0] : '-'}</td>
+                                    <td className="flex flex-col gap-1">
+                                        <span className="font-normal line-clamp-3">{product.description}</span>
+                                        <span className="font-medium text-green-600 line-clamp-2">
+                                            {product.images ? product.images[0].replaceAll('"', '').replace('[', '').replace(']', '') : '-'}
+                                        </span>
+                                    </td>
                                     <td className="font-normal">{product.category ? product.category.name : '-'}</td>
                                     <td className="font-normal">{(product.creationAt || '').replace('T', ' ').replace('.000Z', '')}</td>
                                     <td className="font-normal">{(product.updatedAt || '').replace('T', ' ').replace('.000Z', '')}</td>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { getCategories } from '@/app/api/faker/category';
 import { getProductsByFilter } from '@/app/api/faker/product';
@@ -18,7 +18,7 @@ export default function Main() {
     const colCategories = ['', 'Name', 'Created At', 'Updated At'];
     const colProducts = ['', 'Title', 'Price', 'Description', 'Created At', 'Updated At'];
 
-    const getFetchCategory = async () => {
+    const getFetchCategory = useCallback(async () => {
         const options: any = { cache: 'no-store' };
         if (status === 'authenticated' && !!token) {
             options.headers = { 'Authorization': `Bearer ${token}` }
@@ -27,9 +27,9 @@ export default function Main() {
         if (!reqCategories?.error) {
             setCategories(reqCategories);
         }
-    };
+    }, [apiUrl, status, token, setCategories]);
 
-    const getFetchProduct = async () => {
+    const getFetchProduct = useCallback(async () => {
         const options: any = { cache: 'no-store' };
         if (status === 'authenticated' && !!token) {
             options.headers = { 'Authorization': `Bearer ${token}` }
@@ -38,9 +38,9 @@ export default function Main() {
         if (!reqProducts?.error) {
             setProducts(reqProducts);
         }
-    };
+    }, [apiUrl, status, token, setProducts])
 
-    const getFetchUser = async () => {
+    const getFetchUser = useCallback(async () => {
         const options: any = { cache: 'no-store' };
         if (status === 'authenticated' && !!token) {
             options.headers = { 'Authorization': `Bearer ${token}` }
@@ -49,7 +49,7 @@ export default function Main() {
         if (!reqUsers?.error) {
             setUsers(reqUsers);
         }
-    };
+    }, [apiUrl, status, token, setUsers]);
 
     useEffect(() => {
         if (status === 'loading') return;
@@ -202,11 +202,11 @@ export default function Main() {
                                 return (
                                     <tr key={product.id}>
                                     <td className="font-semibold">{idx + 1}.</td>
-                                    <div className="flex items-center gap-3 p-2">
+                                    <td className="flex items-center gap-3 p-2">
                                         <div className="avatar">
                                             <div className="mask mask-circle w-10 h-110">
                                                 <img 
-                                                    src={product.images ? product.images[0] : ''} 
+                                                    src={product.images ? product.images[0].replaceAll('"', '').replace('[', '').replace(']', '') : ''} 
                                                     alt={product.title} 
                                                     onError={({ currentTarget }) => {
                                                         currentTarget.onerror = null;
@@ -219,9 +219,11 @@ export default function Main() {
                                             <div className="font-bold capitalize">{product.title}</div>
                                             <div className="text-sm opacity-50">{product.category ? product.category.name : '-'}</div>
                                         </div>
-                                    </div>
+                                    </td>
                                     <td className="font-normal">${product.price}</td>
-                                    <td className="font-normal">{product.description}</td>
+                                    <td className="flex mb-1">
+                                        <span className="font-normal line-clamp-3">{product.description}</span>
+                                    </td>
                                     <td className="font-normal">{(product.creationAt || '').replace('T', ' ').replace('.000Z', '')}</td>
                                     <td className="font-normal">{(product.updatedAt || '').replace('T', ' ').replace('.000Z', '')}</td>
                                     </tr>

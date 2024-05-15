@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { getCategories } from '@/app/api/faker/category';
 import { getProductsByFilter } from '@/app/api/faker/product';
@@ -15,7 +15,7 @@ export default function Main() {
     const [products, setProducts] = useState([] as FakerProduct[]);
     const [token, setToken] = useState('');
 
-    const getFetchCategory = async () => {
+    const getFetchCategory = useCallback(async () => {
         const options: any = { cache: 'no-store' };
         if (status === 'authenticated' && !!token) {
             options.headers = { 'Authorization': `Bearer ${token}` }
@@ -24,9 +24,9 @@ export default function Main() {
         if (!reqCategories?.error) {
             setCategories(reqCategories);
         }
-    };
+    }, [apiUrl, status, token, setCategories]);
 
-    const getFetchProduct = async () => {
+    const getFetchProduct = useCallback(async () => {
         const options: any = { cache: 'no-store' };
         if (status === 'authenticated' && !!token) {
             options.headers = { 'Authorization': `Bearer ${token}` }
@@ -35,9 +35,9 @@ export default function Main() {
         if (!reqProducts?.error) {
             setProducts(reqProducts);
         }
-    };
+    }, [apiUrl, status, token, setProducts])
 
-    const getFetchUser = async () => {
+    const getFetchUser = useCallback(async () => {
         const options: any = { cache: 'no-store' };
         if (status === 'authenticated' && !!token) {
             options.headers = { 'Authorization': `Bearer ${token}` }
@@ -46,7 +46,7 @@ export default function Main() {
         if (!reqUsers?.error) {
             setUsers(reqUsers);
         }
-    };
+    }, [apiUrl, status, token, setUsers]);
 
     useEffect(() => {
         if (status === 'loading') return;
@@ -155,7 +155,7 @@ export default function Main() {
                         <div className="card card-compact w-96 h-96 bg-base-100 shadow-xl mb-2" key={product.id}>
                             <figure className="w-full">
                                 <img 
-                                    src={product.images ? product.images[0] : ''}
+                                    src={product.images ? product.images[0].replaceAll('"', '').replace('[', '').replace(']', '') : ''}
                                     alt={`${product.id}_${product.title}_${idx+1}`} 
                                     className="w-full"
                                     onError={({ currentTarget }) => {
@@ -175,7 +175,7 @@ export default function Main() {
                                                 return (
                                                     <figure className="rounded-[4px] w-8 h-8" key={image + '_' + (idx + 1)}>
                                                         <img 
-                                                            src={image}
+                                                            src={image.replaceAll('"', '').replace('[', '').replace(']', '')}
                                                             alt={image + '_' + (idx + 1)} 
                                                             className="w-full"
                                                             onError={({ currentTarget }) => {
