@@ -10,10 +10,7 @@ export default function Home() {
 
   useEffect(() => {
     if (status === 'loading') return; // loading | authenticated | unauthenticated
-    if (session) {
-      console.log(session)
-    }
-  }, [session, status]);
+  }, [status]);
 
   return (
     <>

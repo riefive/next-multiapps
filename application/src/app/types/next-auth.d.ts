@@ -8,6 +8,9 @@ declare module 'next-auth' {
         email: string;
         avatar: string;
         role: 'customer' | 'admin';
+        expiredAt?: string;
+        accessToken?: string;
+        refreshToken?: string;
       } & DefaultSession['user'];
     }
 
