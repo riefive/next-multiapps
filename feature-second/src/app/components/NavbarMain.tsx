@@ -26,7 +26,7 @@ export default function HeaderMenu() {
     }, [router, session, status, useProxy, setUserRole]);
     
     return (
-        <div className="navbar bg-base-100">
+        <div className="navbar bg-base-200 border-b">
             <div className="flex-1">
                 <Link href={useProxy ? '/' : '/app/home'} className="btn btn-ghost text-xl">Super App</Link>
             </div>
@@ -37,8 +37,8 @@ export default function HeaderMenu() {
                     </div>
                     <ul tabIndex={0} className="dropdown-content menu menu-sm shadow bg-base-100 rounded-box w-52 mt-3 p-2 z-[1]">
                         <li><Link href={useProxy ? '/main' : '/app/main'}>Application Main</Link></li>
-                        <li><Link href={useProxy ? '/feat-first/main' : '/main'}>Feature First Main</Link></li>
-                        <li><Link href={'/feat-second/main'}>Feature Second Main</Link></li>
+                        <li><Link href={'/feat-first/main'}>Feature First Main</Link></li>
+                        <li><Link href={useProxy ? '/feat-second/main' : '/main'}>Feature Second Main</Link></li>
                         {userRole === 'admin' && (
                         <li><Link href={useProxy ? '/administrator' : '/app/administrator'}>Administrator</Link></li>
                         )}

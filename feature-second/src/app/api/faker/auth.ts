@@ -1,27 +1,8 @@
-export function taskToErrorCheck(response: any) {
-    if (response.status === 404) {
-        throw new Error(JSON.stringify({ error: true, statusCode: 404, message: 'Not found' }));
-    }
-    if (response.status === 500) {
-        throw new Error(JSON.stringify({ error: true, statusCode: 500, message: 'Internal server error' }));
-    }
-    throw new Error(JSON.stringify({ error: true, statusCode: response.status, message: response.message }));
-}
-
-export function taskToErrorParse(error: any) {
-    if (typeof error === 'object') {
-        const errorReplaced: string = error.toString().replace('Error:', '').trim()
-        try {
-            return JSON.parse(errorReplaced);
-        } catch (errorParsed) {}
-    }
-    return error;
-}
+import { taskToErrorCheck, taskToErrorParse } from '@/app/_libs/api-utils';
 
 // api for get access token
 export async function getAccessToken(baseUrl: string, payloads: { email: string, password: string }, options: any) {
     const { email, password } = payloads;
-
     try {
         const response: any = await fetch(`${baseUrl}/v1/auth/login`, {
             method: 'POST',
@@ -52,7 +33,6 @@ export async function getAccessToken(baseUrl: string, payloads: { email: string,
 // api for get refresh new token from expired refresh token
 export async function getRefreshToken(baseUrl: string, payloads: { access_token: string, refresh_token: string }, options: any) {
     const { access_token, refresh_token } = payloads;
-
     try {
         const response: any = await fetch(`${baseUrl}/v1/auth/refresh-token`, {
             method: 'POST',

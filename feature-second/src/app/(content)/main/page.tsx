@@ -1,11 +1,9 @@
-'use client';
-
-import HeaderMenu from '@/app/components/HeaderMenu';
+import NavbarMain from '@/app/components/NavbarMain';
 
 export default function Main() {
     return (
         <div>
-            <HeaderMenu />
+            <NavbarMain />
             <div className="hero flex flex-col min-h-screen bg-base-200 gap-2">
                 <div className="hero-content text-center gap-2">
                     <div className="max-w-md mb-2">

@@ -45,7 +45,7 @@ export default function Main() {
         if (status === 'authenticated' && !!token) {
             options.headers = { 'Authorization': `Bearer ${token}` }
         }
-        const reqProducts: any = await getProductsByFilter(apiUrl, { offset: 0, limit: 15 }, options);
+        const reqProducts: any = await getProductsByFilter(apiUrl, { offset: 0, limit: 150 }, options);
         if (!reqProducts?.error) {
             setProducts(reqProducts);
         }
