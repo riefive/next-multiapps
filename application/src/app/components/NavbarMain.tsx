@@ -2,11 +2,12 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { signOut, useSession } from 'next-auth/react';
 
-export default function HeaderMenu() {
+export default function NavbarMain() {
     const router = useRouter();
+    const pathname = usePathname();
     const { data: session, status } = useSession();
     const [ userRole, setUserRole ] = useState<string>('');
 
@@ -25,7 +26,7 @@ export default function HeaderMenu() {
     }, [router, session, status, setUserRole]);
     
     return (
-        <div className="navbar bg-base-100">
+        <div className="navbar bg-base-200 border-b">
             <div className="flex-1">
                 <Link href={'/'} className="btn btn-ghost text-xl">Super App</Link>
             </div>
@@ -42,7 +43,7 @@ export default function HeaderMenu() {
                         <li><Link href={'/administrator'}>Administrator</Link></li>
                         )}
                         {!session && (
-                        <li><Link href={'/signin'}>SignIn</Link></li> 
+                        <li><Link href={pathname === '/' ? '/signin' : `/signin?callbackUrl=${pathname.replace('/', '').replaceAll('/', '_')}`}>SignIn</Link></li> 
                         )}
                     </ul>
                 </div>

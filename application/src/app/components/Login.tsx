@@ -26,7 +26,6 @@ export default function Login(props: Props) {
             redirect: false,
         };
         const res: any = await signIn('signin-jwt', options);
-        // error: null
         if (parseInt(res?.status || 0) === 200 || res?.ok) {
             router.push(props.callbackUrl || '/')
         }
@@ -50,8 +49,8 @@ export default function Login(props: Props) {
                 </label>
                 <div className="my-1"></div>
                 <div className="flex flex-col justify-content-center items-center w-full gap-2">
-                    <button  type="submit" className="btn btn-primary w-full capitalize">Sign In</button>
-                    <button className="btn btn-outline btn-error w-full capitalize" onClick={() => router.push(props.callbackUrl || '/')}>Cancel</button>
+                    <button type="submit" className="btn btn-primary w-full capitalize">Sign In</button>
+                    <button type="button" className="btn btn-outline btn-error w-full capitalize" onClick={() => router.push(props.callbackUrl || '/')}>Cancel</button>
                 </div>
             </form>
         </div>
